@@ -1,0 +1,36 @@
+resource "aws_key_pair" "Temp-key" {
+  key_name   = "tempkey"
+  public_key = file("temp.pub")
+}
+
+resource "aws_instance" "Temp-ins" {
+
+  key_name = aws_key_pair.Temp-key.key_name
+  amis = var.AMIS[var.REGION]
+  vpc_security_group_ids = ["sg-0780815f55104be8a"]
+  availability_zone = var.ZONE
+  instance_type = t2.micro
+  tags = {
+     Name = "Temp-instance"
+     Project = "Temp"
+}
+}
+ provisioner "file" {
+    source      = "Temp.sh"
+    destination = "/tmp/temp.sh"
+  }
+
+  provisioner "remote-exec" {
+
+    inline = [
+      "chmod +x /tmpweb/.sh",
+      "sudo /tmp/Temp.sh"
+    ]
+  }
+
+  connection {
+    user        = var.USER
+    private_key = file("tempkey")
+    host        = self.public_ip
+  }
+}

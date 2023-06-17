@@ -1,0 +1,12 @@
+resource "aws_instance" "Your-ins" {
+
+  key_name = "New-Your"
+  amis = var.AMIS[var.REGION]
+  vpc_security_group_ids = ["sg-0780815f55104be8a"]
+  availability_zone = var.ZONE
+  instance_type = t2.micro
+  tags = {
+     Name = "Your-instance"
+     Project = "Your"
+}
+}

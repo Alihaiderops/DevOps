@@ -1,0 +1,21 @@
+provider "aws" {
+
+    	region = "us-east-2"
+	access_key = ""Kioa9969*****
+	secret_key = "jjsb8y38*****"
+
+}
+
+resource "aws_instance" "intro" {
+
+	key_name = "Temp-key"
+	availability_zone = "us-east-2a"
+	ami = "ami-03657b56516ab7912"
+	instance_type = "t2.micro"
+      vpc_security_group_ids = ["sg-0780815f55104be8a"]
+
+      tags = {
+	  Name    = "Temp-instance"
+	  Project = "Temp"
+      }
+}
